@@ -19,12 +19,12 @@ function playRound(playerSelection, computerSelection) {
             } else if (computerSelection === 'paper') {
                 return [roundResults[3], 1];
             } else {
-                return roundResults[6, 2];
+                return [roundResults[6], 2];
             }
             break;
         case 'scissors':
             if (computerSelection === 'paper') {
-                return [roundResults[2], 0];
+                return [roundResults[1], 0];
             } else if (computerSelection === 'rock') {
                 return [roundResults[4], 1];
             }
@@ -50,32 +50,31 @@ function game() {
     let playerWinCount = 0;
     let computerWinCount = 0;
 
-    for (let i = 0; i < 5; i++) {
+    //get input from user
+    let playerChoice = window.prompt("Please choose rock, paper, or scissors: ");
+    let compChoice = computerPlay();
 
-        //get input from user
-        let playerChoice = window.prompt("Please choose rock, paper, or scissors: ");
-        let compChoice = computerPlay();
+    let results = playRound(playerChoice, compChoice);
 
-        let results = playRound(playerChoice, compChoice);
+    console.log(results[0]);
 
-        console.log(results[0]);
-
-        if (results[1] === 0) {
-            ++playerWinCount;
-        } else if (results[1] === 1) {
-            ++computerWinCount;
-        } else {
-            i--;
-        }
-        if (playerWinCount === 3 || computerWinCount === 3) {
-            break;
-        }
-    }
-    if (playerWinCount > computerWinCount) {
-        console.log('Player Wins! Congratulations!');
+    if (results[1] === 0) {
+        ++playerWinCount;
+    } else if (results[1] === 1) {
+        ++computerWinCount;
     } else {
-        console.log('Computer Wins! Try again next time.');
+        i--;
     }
 }
 
-game();
+
+// Query Selectors for the buttons that call the playround
+const playerChoice = document.querySelectorAll('button');
+
+playerChoice.forEach(element => {
+    element.addEventListener('click', (e) => {
+        const result = (playRound(e.target.id, computerPlay()));
+        document.getElementsByClassName('results').item(0).innerText = result[0];
+    });
+});
+//playerChoice.addEventListener('click', playRound(playerChoice[]))
