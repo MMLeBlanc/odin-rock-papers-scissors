@@ -71,10 +71,19 @@ function game() {
 // Query Selectors for the buttons that call the playround
 const playerChoice = document.querySelectorAll('button');
 
+function removeTransition(e) {
+    if (e.propertyName !== 'font-size') return;
+    this.classList.remove('buttonClicked');
+}
+
 playerChoice.forEach(element => {
     element.addEventListener('click', (e) => {
+        const buttonClicked = document.querySelector(`#${e.target.id}`);
+        buttonClicked.classList.add('buttonClicked');
+
         const result = (playRound(e.target.id, computerPlay()));
         document.getElementsByClassName('results').item(0).innerText = result[0];
     });
+
+    element.addEventListener('transitionend', removeTransition);
 });
-//playerChoice.addEventListener('click', playRound(playerChoice[]))
