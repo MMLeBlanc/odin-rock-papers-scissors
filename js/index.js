@@ -1,3 +1,8 @@
+//Global Variables:
+
+let playerWinCount = 0;
+let computerWinCount = 0;
+
 function computerPlay() {
     const comp_move = ['rock', 'paper', 'scissors'];
 
@@ -76,6 +81,29 @@ function removeTransition(e) {
     this.classList.remove('buttonClicked');
 }
 
+/***
+ * Function: Increment score for either the computer or the Player.
+ * Inputs: results - expecting to be an array containing who won the round,
+ *    as well as an indicator for who won.
+ */
+function calculateScore(results) {
+    if (results[1] === 0) {
+        ++playerWinCount;
+        document.getElementById('playerScore').innerHTML = playerWinCount;
+    } else if (results[1] === 1) {
+        ++computerWinCount;
+        document.getElementById('computerScore').innerText = computerWinCount;
+    } else {
+        return;
+    }
+
+    if (playerWinCount === 5) {
+        document.getElementsByClassName('results').item(0).innerText = 'Player Wins, Congratulations!';
+    } else if (computerWinCount === 5) {
+        document.getElementsByClassName('results').item(0).innerText = 'The Computer Wins! Try again next time.';
+    }
+}
+
 playerChoice.forEach(element => {
     element.addEventListener('click', (e) => {
         const buttonClicked = document.querySelector(`#${e.target.id}`);
@@ -83,6 +111,8 @@ playerChoice.forEach(element => {
 
         const result = (playRound(e.target.id, computerPlay()));
         document.getElementsByClassName('results').item(0).innerText = result[0];
+
+        calculateScore(result);
     });
 
     element.addEventListener('transitionend', removeTransition);

@@ -6,9 +6,13 @@ body {
     justify-content: center;
 }
 
-.choices {
+.score {
     display: flex;
-    justify-content: space-between;
+    gap: 2%;
+}
+
+.player, .computer {
+    text-align: center;
 }
 
 button {
