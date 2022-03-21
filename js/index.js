@@ -1,7 +1,8 @@
 //Global Variables:
-
-let playerWinCount = 0;
-let computerWinCount = 0;
+const state = {
+    'playerWinCount': 0,
+    'computerWinCount': 0
+};
 
 function computerPlay() {
     const comp_move = ['rock', 'paper', 'scissors'];
@@ -50,35 +51,42 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function game() {
-
-    let playerWinCount = 0;
-    let computerWinCount = 0;
-
-    //get input from user
-    let playerChoice = window.prompt("Please choose rock, paper, or scissors: ");
-    let compChoice = computerPlay();
-
-    let results = playRound(playerChoice, compChoice);
-
-    console.log(results[0]);
-
-    if (results[1] === 0) {
-        ++playerWinCount;
-    } else if (results[1] === 1) {
-        ++computerWinCount;
-    } else {
-        i--;
-    }
-}
-
-
 // Query Selectors for the buttons that call the playround
 const playerChoice = document.querySelectorAll('button');
 
 function removeTransition(e) {
     if (e.propertyName !== 'font-size') return;
     this.classList.remove('buttonClicked');
+}
+
+function resetScores() {
+    state.computerWinCount = 0;
+    state.playerWinCount = 0;
+
+    document.getElementById('playerScore').innerText = state.playerWinCount;
+    document.getElementById('computerScore').innerText = state.computerWinCount;
+}
+
+function reset() {
+    const resetButton = document.createElement('button');
+    resetButton.innerText = 'Play Again?';
+    resetButton.addEventListener('click', e => {
+        resetScores();
+        const enableButtons = document.querySelectorAll('button');
+        enableButtons.forEach(e => {
+            e.removeAttribute('disabled');
+        });
+        const resetDiv = document.getElementById('resetButton');
+        resetDiv.removeChild(resetButton);
+    });
+    document.getElementById('resetButton').appendChild(resetButton);
+}
+
+function disableButtons() {
+    const buttonDisable = document.querySelectorAll('button');
+    buttonDisable.forEach(button => {
+        button.disabled = true;
+    });
 }
 
 /***
@@ -88,19 +96,23 @@ function removeTransition(e) {
  */
 function calculateScore(results) {
     if (results[1] === 0) {
-        ++playerWinCount;
-        document.getElementById('playerScore').innerHTML = playerWinCount;
+        ++state.playerWinCount;
+        document.getElementById('playerScore').innerText = state.playerWinCount;
     } else if (results[1] === 1) {
-        ++computerWinCount;
-        document.getElementById('computerScore').innerText = computerWinCount;
+        ++state.computerWinCount;
+        document.getElementById('computerScore').innerText = state.computerWinCount;
     } else {
         return;
     }
 
-    if (playerWinCount === 5) {
+    if (state.playerWinCount === 5) {
         document.getElementsByClassName('results').item(0).innerText = 'Player Wins, Congratulations!';
-    } else if (computerWinCount === 5) {
+        disableButtons();
+        reset();
+    } else if (state.computerWinCount === 5) {
         document.getElementsByClassName('results').item(0).innerText = 'The Computer Wins! Try again next time.';
+        disableButtons();
+        reset();
     }
 }
 

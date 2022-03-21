@@ -47,3 +47,7 @@ button:hover {
     border-color: black;
     border-radius: 5px;
 }
+
+#resetButton {
+    margin-top: 5%;;
+}
