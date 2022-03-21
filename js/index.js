@@ -78,6 +78,8 @@ function reset() {
         });
         const resetDiv = document.getElementById('resetButton');
         resetDiv.removeChild(resetButton);
+        const resultDisplay = document.querySelector('.results');
+        resultDisplay.innerText = 'Rocks, Paper, Scissors!';
     });
     document.getElementById('resetButton').appendChild(resetButton);
 }
@@ -106,11 +108,11 @@ function calculateScore(results) {
     }
 
     if (state.playerWinCount === 5) {
-        document.getElementsByClassName('results').item(0).innerText = 'Player Wins, Congratulations!';
+        document.getElementsByClassName('results').item(0).innerText = 'You Win,\nCongratulations!';
         disableButtons();
         reset();
     } else if (state.computerWinCount === 5) {
-        document.getElementsByClassName('results').item(0).innerText = 'The Computer Wins! Try again next time.';
+        document.getElementsByClassName('results').item(0).innerText = 'The Computer Wins!\nTry again next time.';
         disableButtons();
         reset();
     }

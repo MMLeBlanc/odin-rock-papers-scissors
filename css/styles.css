@@ -40,12 +40,13 @@ button:hover {
     background-color: cadetblue;
     margin-top: 5%;
     font-size: x-large;
-    width: 40%;
+    width: max-content;
     text-align: center;
     border-width: 5px;
     border-style: solid;
     border-color: black;
     border-radius: 5px;
+    padding: 3%;
 }
 
 #resetButton {
